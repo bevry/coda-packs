@@ -1,0 +1,10 @@
+{
+  "workbench.colorTheme": "Monokai Night",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.exclude": {
+    "**/.coda.json": true,
+    "**/node_modules": true,
+    "**/patches": true,
+    "**/package-lock.json": true
+  }
+}
