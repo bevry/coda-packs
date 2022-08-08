@@ -4,7 +4,6 @@
 
 <!-- /TITLE -->
 
-
 <!-- BADGES/ -->
 
 <span class="badge-githubsponsors"><a href="https://github.com/sponsors/balupton" title="Donate to this project using GitHub Sponsors"><img src="https://img.shields.io/badge/github-donate-yellow.svg" alt="GitHub Sponsors donate button" /></a></span>
@@ -19,17 +18,16 @@
 
 <!-- /BADGES -->
 
-
 # About
 
 This repository is the monorepo for the various packs by [Benjamin Lupton](https://balupton.com) / [Bevry](https://bevry.me), which can be found inside the `packs/` directory.
 
 You can find the published ones on the Coda store at:
 
-- https://coda.io/packs/coingecko-11734
-- https://coda.io/packs/zapier-hooks-11840
-- https://coda.io/packs/twitter-11837
-
+-   https://coda.io/packs/twitch-14122
+-   https://coda.io/packs/coingecko-11734
+-   https://coda.io/packs/zapier-hooks-11840
+-   https://coda.io/packs/twitter-11837
 
 <!-- BACKERS/ -->
 
@@ -61,10 +59,7 @@ These amazing people have contributed code to this project:
 
 <ul><li><a href="https://github.com/balupton">Benjamin Lupton</a> — <a href="https://github.com/bevry/coda-packs/commits?author=balupton" title="View the GitHub contributions of Benjamin Lupton on repository bevry/coda-packs">view contributions</a></li></ul>
 
-
-
 <!-- /BACKERS -->
-
 
 <!-- LICENSE/ -->
 
