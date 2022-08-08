@@ -20,7 +20,7 @@ export interface Coin {
 	symbol: string
 	name: string
 	url: string
-	image?: string
+	image: string
 }
 
 export interface CoinMarket
