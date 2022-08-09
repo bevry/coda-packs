@@ -1,3 +1,5 @@
+import { StringFormulaDef } from '@codahq/packs-sdk'
+
 export type Currencies = Array<string>
 
 interface ExchangeRateResponse {
@@ -20,7 +22,7 @@ export interface Coin {
 	symbol: string
 	name: string
 	url: string
-	image: string
+	image?: string
 }
 
 export interface CoinMarket

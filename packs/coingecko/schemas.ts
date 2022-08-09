@@ -637,8 +637,7 @@ export const CoinSchema = coda.makeObjectSchema({
 		},
 		image: {
 			description: 'Image of the Coin',
-			// making this optional seems to have no effect
-			required: true,
+			required: false,
 			...imageSchema,
 		},
 	},

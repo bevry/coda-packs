@@ -49,6 +49,9 @@
   "engines": {
     "node": ">=18"
   },
+  "dependencies": {
+    "@codahq/packs-sdk": "^1.0.5"
+  },
   "devDependencies": {
     "eslint": "^8.21.0",
     "eslint-config-bevry": "^3.27.0",

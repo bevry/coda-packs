@@ -123,7 +123,6 @@ pack.addFormula({
 	resultType: coda.ValueType.Object,
 	schema: CoinDetailsSchema,
 	parameters: [CoinIdParam],
-	// @ts-ignore
 	execute: getCoinDetails,
 })
 
