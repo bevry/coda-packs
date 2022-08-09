@@ -1,3 +1,5 @@
-import * as coda from "@codahq/packs-sdk";
+import * as coda from '@codahq/packs-sdk'
 
-export const pack = coda.newPack();
+export const pack = coda.newPack()
+
+console.log('hello world')
