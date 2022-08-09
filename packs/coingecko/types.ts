@@ -391,7 +391,8 @@ interface Sparkline7d {
 }
 
 interface CommunityData {
-	facebook_likes: null | number
+	// even doing ? here to mark it as optional, does not fix the type error, so seems it is nested object schemas are disregarding `required: false`
+	facebook_likes?: null | number
 	twitter_followers: null | number
 	reddit_average_posts_48h: null | number
 	reddit_average_comments_48h: null | number

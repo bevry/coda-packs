@@ -298,30 +298,31 @@ export async function getCoinDetails(
 		result.market_data?.last_updated,
 		new Date()
 	).toISOString()
+	const coinMarket: CoinMarket = {
+		id: `${result.id}@${whenString}`,
+		coin,
+		when: result.market_data?.last_updated,
+		...(result.community_data || {}),
+		...(result.developer_data || {}),
+		price_usd: result.market_data?.current_price?.usd,
+		price_btc: result.market_data?.current_price?.btc,
+		volume_usd: result.market_data?.total_volume?.usd,
+		volume_btc: result.market_data?.total_volume?.btc,
+		market_cap_usd: result.market_data?.market_cap?.usd,
+		market_cap_btc: result.market_data?.market_cap?.btc,
+		// market
+		price: result.market_data?.current_price,
+		volume: result.market_data?.total_volume,
+		market_cap: result.market_data?.market_cap,
+		// public interest
+		alexa_rank: result.public_interest_stats?.alexa_rank,
+		bing_matches: result.public_interest_stats?.bing_matches,
+	}
 	const details: CoinDetails = {
 		id: result.id,
 		when: result.last_updated,
 		coin,
-		market: {
-			id: `${result.id}@${whenString}`,
-			coin,
-			when: result.market_data?.last_updated,
-			...(result.community_data || {}),
-			...(result.developer_data || {}),
-			price_usd: result.market_data?.current_price?.usd,
-			price_btc: result.market_data?.current_price?.btc,
-			volume_usd: result.market_data?.total_volume?.usd,
-			volume_btc: result.market_data?.total_volume?.btc,
-			market_cap_usd: result.market_data?.market_cap?.usd,
-			market_cap_btc: result.market_data?.market_cap?.btc,
-			// market
-			price: result.market_data?.current_price,
-			volume: result.market_data?.total_volume,
-			market_cap: result.market_data?.market_cap,
-			// public interest
-			alexa_rank: result.public_interest_stats?.alexa_rank,
-			bing_matches: result.public_interest_stats?.bing_matches,
-		},
+		market: coinMarket,
 		// fields
 		block_time_in_minutes: result.block_time_in_minutes,
 		coingecko_rank: result.coingecko_rank,
