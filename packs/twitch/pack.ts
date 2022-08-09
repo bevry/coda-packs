@@ -28,6 +28,12 @@ import {
 	getTagsFromChannelIdentifier,
 	searchChannels,
 	searchCategories,
+	getUserByIdentifier,
+	getUserByLogin,
+	getChannelByIdentifier,
+	getTagByIdentifier,
+	getCategoryByIdentifier,
+	getCategoryByName,
 } from './api'
 import { clientId, day } from './config'
 
@@ -108,15 +114,15 @@ pack.addFormula({
 pack.addFormula({
 	name: 'GetUserByIdentifier',
 	description: 'Fetch the User that exact matches this Identifier',
-	resultType: coda.ValueType.Array,
-	items: UserSchema,
+	resultType: coda.ValueType.Object,
+	schema: UserSchema,
 	parameters: [UserIdentifierParam],
-	execute: getUsersFromIdentifiers,
+	execute: getUserByIdentifier,
 })
 
 pack.addFormula({
 	name: 'GetUsersFromLogins',
-	description: 'Fetch the User that exact match a series of Logins',
+	description: 'Fetch the Users that exact match a series of Logins',
 	resultType: coda.ValueType.Array,
 	items: UserSchema,
 	parameters: [],
@@ -127,10 +133,10 @@ pack.addFormula({
 pack.addFormula({
 	name: 'GetUserByLogin',
 	description: 'Fetch the User that exact matches this Login',
-	resultType: coda.ValueType.Array,
-	items: UserSchema,
+	resultType: coda.ValueType.Object,
+	schema: UserSchema,
 	parameters: [UserIdentifierParam],
-	execute: getUsersFromLogins,
+	execute: getUserByLogin,
 })
 
 // ====================================
@@ -147,7 +153,7 @@ pack.addFormula({
 
 pack.addFormula({
 	name: 'GetChannelsFromIdentifiers',
-	description: 'Fetch the Channel that exact match a series of Identifiers',
+	description: 'Fetch the Channels that exact match a series of Identifiers',
 	resultType: coda.ValueType.Array,
 	items: ChannelSchema,
 	parameters: [],
@@ -158,10 +164,10 @@ pack.addFormula({
 pack.addFormula({
 	name: 'GetChannelByIdentifier',
 	description: 'Fetch the Channel that exact matches this Identifier',
-	resultType: coda.ValueType.Array,
-	items: ChannelSchema,
+	resultType: coda.ValueType.Object,
+	schema: ChannelSchema,
 	parameters: [ChannelIdentifierParam],
-	execute: getChannelsFromIdentifiers,
+	execute: getChannelByIdentifier,
 })
 
 pack.addFormula({
@@ -230,10 +236,10 @@ pack.addFormula({
 pack.addFormula({
 	name: 'GetTagByIdentifier',
 	description: 'Fetch the Tag that exact matches this Identifier',
-	resultType: coda.ValueType.Array,
-	items: TagSchema,
+	resultType: coda.ValueType.Object,
+	schema: TagSchema,
 	parameters: [TagIdentifierParam],
-	execute: getTagsFromIdentifiers,
+	execute: getTagByIdentifier,
 })
 
 pack.addFormula({
@@ -281,10 +287,10 @@ pack.addFormula({
 pack.addFormula({
 	name: 'GetCategoryByIdentifier',
 	description: 'Fetch the Category that exact matches this Identifier',
-	resultType: coda.ValueType.Array,
-	items: CategorySchema,
+	resultType: coda.ValueType.Object,
+	schema: CategorySchema,
 	parameters: [CategoryIdentifierParam],
-	execute: getCategoriesFromIdentifiers,
+	execute: getCategoryByIdentifier,
 })
 
 pack.addFormula({
@@ -300,10 +306,10 @@ pack.addFormula({
 pack.addFormula({
 	name: 'GetCategoryByName',
 	description: 'Fetch the Category that exact matches this Name',
-	resultType: coda.ValueType.Array,
-	items: CategorySchema,
+	resultType: coda.ValueType.Object,
+	schema: CategorySchema,
 	parameters: [CategoryNameParam],
-	execute: getCategoriesFromNames,
+	execute: getCategoryByName,
 })
 
 // ====================================

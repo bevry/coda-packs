@@ -43,9 +43,6 @@ function fetchFromTwitch<T>(
 	})
 }
 
-// ====================================
-// USER & CHANNEL
-
 function parseUser(raw: RawActiveUser | RawUser): User {
 	const user: User = {
 		id: raw.id,
@@ -61,6 +58,23 @@ function parseUser(raw: RawActiveUser | RawUser): User {
 	}
 	return user
 }
+
+function parseChannel(raw: RawChannel): Channel {
+	const channel: Channel = {
+		id: raw.broadcaster_id,
+		login: raw.broadcaster_login,
+		name: raw.broadcaster_name,
+		category_id: raw.game_id,
+		category_name: raw.game_name,
+		language: raw.broadcaster_language,
+		stream_title: raw.title,
+		stream_delay: raw.delay,
+	}
+	return channel
+}
+
+// ====================================
+// USER & CHANNEL
 
 export async function getActiveUser(
 	[]: [],
@@ -101,6 +115,14 @@ export async function getUsersFromIdentifiers(
 	return users
 }
 
+export async function getUserByIdentifier(
+	[id]: [string],
+	context: coda.ExecutionContext
+) {
+	const results = await getUsersFromIdentifiers([id], context)
+	return results[0]
+}
+
 // https://dev.twitch.tv/docs/api/reference#get-users
 export async function getUsersFromLogins(
 	[...logins]: [...Array<string>],
@@ -125,18 +147,12 @@ export async function getUsersFromLogins(
 	return users
 }
 
-function parseChannel(raw: RawChannel): Channel {
-	const channel: Channel = {
-		id: raw.broadcaster_id,
-		login: raw.broadcaster_login,
-		name: raw.broadcaster_name,
-		category_id: raw.game_id,
-		category_name: raw.game_name,
-		language: raw.broadcaster_language,
-		stream_title: raw.title,
-		stream_delay: raw.delay,
-	}
-	return channel
+export async function getUserByLogin(
+	[login]: [string],
+	context: coda.ExecutionContext
+) {
+	const results = await getUsersFromLogins([login], context)
+	return results[0]
 }
 
 // https://dev.twitch.tv/docs/api/reference#search-channels
@@ -193,6 +209,14 @@ export async function getChannelsFromIdentifiers(
 
 	// return
 	return channels
+}
+
+export async function getChannelByIdentifier(
+	[id]: [string],
+	context: coda.ExecutionContext
+) {
+	const results = await getChannelsFromIdentifiers([id], context)
+	return results[0]
 }
 
 // https://dev.twitch.tv/docs/api/reference#modify-channel-information
@@ -329,6 +353,14 @@ export async function getTagsFromIdentifiers(
 	return tags
 }
 
+export async function getTagByIdentifier(
+	[id]: [string],
+	context: coda.ExecutionContext
+) {
+	const results = await getTagsFromIdentifiers([id], context)
+	return results[0]
+}
+
 // https://dev.twitch.tv/docs/api/reference#replace-stream-tags
 export async function replaceStreamTags(
 	[channel_id, ...tag_ids]: [string, ...Array<string>],
@@ -445,6 +477,14 @@ export async function getCategoriesFromIdentifiers(
 	return categories
 }
 
+export async function getCategoryByIdentifier(
+	[id]: [string],
+	context: coda.ExecutionContext
+) {
+	const results = await getCategoriesFromIdentifiers([id], context)
+	return results[0]
+}
+
 export async function getCategoriesFromNames(
 	[...names]: [...Array<string>],
 	context: coda.SyncExecutionContext | coda.ExecutionContext
@@ -469,4 +509,12 @@ export async function getCategoriesFromNames(
 
 	// return
 	return categories
+}
+
+export async function getCategoryByName(
+	[name]: [string],
+	context: coda.ExecutionContext
+) {
+	const results = await getCategoriesFromNames([name], context)
+	return results[0]
 }
