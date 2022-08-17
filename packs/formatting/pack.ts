@@ -17,6 +17,17 @@ export const CodaBlockLanguageParam = coda.makeParameter({
 })
 
 pack.addFormula({
+	name: 'Newline',
+	description: 'Give us a newline',
+	parameters: [],
+	resultType: coda.ValueType.String,
+	// codaType: coda.ValueHintType.Html,
+	execute: async function ([]: [], context) {
+		return '\n'
+	},
+})
+
+pack.addFormula({
 	name: 'Html',
 	description: 'Format the input text as if it is HTML',
 	parameters: [UnformattedTextParam],
