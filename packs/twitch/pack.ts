@@ -35,7 +35,6 @@ import {
 	getCategoryByIdentifier,
 	getCategoryByName,
 } from './api'
-import { clientId, day } from './config'
 
 // https://dev.twitch.tv/console/apps/create
 // https://dev.twitch.tv/docs/api/get-started
