@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Upload Pack File",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npx",
+      // https://code.visualstudio.com/docs/editor/variables-reference
+      "args": ["coda", "upload", "${relativeFileDirname}/pack.ts"],
+      "cwd": "${workspaceRoot}",
+      "console": "integratedTerminal"
+    }
+  ]
+}
