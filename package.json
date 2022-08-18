@@ -51,7 +51,8 @@
   },
   "dependencies": {
     "@codahq/packs-examples": "github:coda/packs-examples",
-    "@codahq/packs-sdk": "^1.0.5"
+    "@codahq/packs-sdk": "^1.0.5",
+    "twitter-api-sdk": "^1.1.0"
   },
   "devDependencies": {
     "@types/chai": "^4.3.3",
