@@ -35,8 +35,8 @@ pack.addNetworkDomain('api.coingecko.com')
 // pack.setUserAuthentication({
 // 	type: coda.AuthenticationType.HeaderBearerToken,
 // 	instructionsUrl: 'https://www.coingecko.com/en/api/pricing',
+// 	defaultConnectionRequirement: coda.ConnectionRequirement.Optional,
 // })
-// this needs to be optional
 
 // ====================================
 // DEFI MARKET

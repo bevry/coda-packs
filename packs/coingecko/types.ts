@@ -1,5 +1,12 @@
 export type Currencies = Array<string>
 
+export interface ErrorResponse {
+	status?: {
+		error_code?: number
+		error_message?: string
+	}
+}
+
 // type Missing = undefined | null
 
 interface ExchangeRateResponse {

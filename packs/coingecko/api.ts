@@ -12,6 +12,7 @@ import type {
 	Currencies,
 	DefiMarket,
 	DefiMarketResponse,
+	ErrorResponse,
 	ExchangeRate,
 	ExchangeRatesResponse,
 	GlobalMarket,
@@ -27,6 +28,31 @@ export const longTime = day * 7
 
 // ====================================
 // HELPERS
+
+async function fetch<T>(
+	request: coda.FetchRequest,
+	context: coda.SyncExecutionContext | coda.ExecutionContext
+) {
+	try {
+		return await context.fetcher.fetch<T>(request)
+	} catch (rawError: any) {
+		if (rawError.statusCode) {
+			const error = rawError as coda.StatusCodeError
+			const coinGeckoErrorCode = error.body?.status?.error_code
+			const coinGeckoErrorMessage = error.body?.status?.error_message
+			if (coinGeckoErrorCode === 429) {
+				throw new coda.UserVisibleError(
+					`Rate limits exceeded: https://coda.io/@balupton/coingecko/rate-limits-14`
+				)
+			}
+			throw new coda.UserVisibleError(
+				coinGeckoErrorMessage ||
+					`Required failed with error ${error.statusCode}`
+			)
+		}
+		throw new coda.UserVisibleError('Request failed.')
+	}
+}
 
 // ------------------------------------
 // Dates
@@ -397,11 +423,14 @@ export async function getDefiMarket(
 	// fetch
 	const url =
 		'https://api.coingecko.com/api/v3/global/decentralized_finance_defi'
-	const response = await context.fetcher.fetch<DefiMarketResponse>({
-		method: 'GET',
-		url: url,
-		cacheTtlSecs: day,
-	})
+	const response = await fetch<DefiMarketResponse>(
+		{
+			method: 'GET',
+			url: url,
+			cacheTtlSecs: day,
+		},
+		context
+	)
 
 	// verify
 	if (!response.body || !response.body.data) {
@@ -422,11 +451,14 @@ export async function getGlobalMarket(
 ) {
 	// fetch
 	const url = 'https://api.coingecko.com/api/v3/global'
-	const response = await context.fetcher.fetch<GlobalMarketResponse>({
-		method: 'GET',
-		url: url,
-		cacheTtlSecs: day,
-	})
+	const response = await fetch<GlobalMarketResponse>(
+		{
+			method: 'GET',
+			url: url,
+			cacheTtlSecs: day,
+		},
+		context
+	)
 
 	// verify
 	if (!response.body || !response.body.data) {
@@ -447,11 +479,14 @@ export async function getCategories(
 ) {
 	// fetch
 	const url = 'https://api.coingecko.com/api/v3/coins/categories'
-	const response = await context.fetcher.fetch<CategoriesResponse>({
-		method: 'GET',
-		url: url,
-		cacheTtlSecs: day,
-	})
+	const response = await fetch<CategoriesResponse>(
+		{
+			method: 'GET',
+			url: url,
+			cacheTtlSecs: day,
+		},
+		context
+	)
 
 	// verify
 	if (!response.body) {
@@ -472,11 +507,14 @@ export async function getExchangeRates(
 ): Promise<Array<ExchangeRate>> {
 	// fetch
 	const url = 'https://api.coingecko.com/api/v3/exchange_rates'
-	const response = await context.fetcher.fetch<ExchangeRatesResponse>({
-		method: 'GET',
-		url: url,
-		cacheTtlSecs: day,
-	})
+	const response = await fetch<ExchangeRatesResponse>(
+		{
+			method: 'GET',
+			url: url,
+			cacheTtlSecs: day,
+		},
+		context
+	)
 
 	// verify
 	if (!response.body || !response.body.rates) {
@@ -497,11 +535,14 @@ export async function getCurrencies(
 ): Promise<Currencies> {
 	// fetch
 	const url = 'https://api.coingecko.com/api/v3/simple/supported_vs_currencies'
-	const response = await context.fetcher.fetch<Currencies>({
-		method: 'GET',
-		url: url,
-		cacheTtlSecs: day,
-	})
+	const response = await fetch<Currencies>(
+		{
+			method: 'GET',
+			url: url,
+			cacheTtlSecs: day,
+		},
+		context
+	)
 
 	// verify
 	if (!response.body) {
@@ -542,11 +583,14 @@ export async function getCoinMarket(
 		`https://api.coingecko.com/api/v3/coins/${request.id}/history`,
 		query
 	)
-	const response = await context.fetcher.fetch<CoinHistoryResponse>({
-		method: 'GET',
-		url: url,
-		cacheTtlSecs: wasToday ? day : longTime,
-	})
+	const response = await fetch<CoinHistoryResponse>(
+		{
+			method: 'GET',
+			url: url,
+			cacheTtlSecs: wasToday ? day : longTime,
+		},
+		context
+	)
 
 	// verify
 	if (!response.body || !response.body.market_data) {
@@ -592,11 +636,14 @@ export async function getCoinDetails(
 		`https://api.coingecko.com/api/v3/coins/${request.id}`,
 		query
 	)
-	const response = await context.fetcher.fetch<CoinResponse>({
-		method: 'GET',
-		url: url,
-		cacheTtlSecs: day,
-	})
+	const response = await fetch<CoinResponse>(
+		{
+			method: 'GET',
+			url: url,
+			cacheTtlSecs: day,
+		},
+		context
+	)
 
 	// verify
 	if (!response.body) {
@@ -640,11 +687,14 @@ export async function getCoins(
 ) {
 	// fetch
 	const url = `https://api.coingecko.com/api/v3/coins/list`
-	const response = await context.fetcher.fetch<CoinsListingResponse>({
-		method: 'GET',
-		url: url,
-		cacheTtlSecs: day,
-	})
+	const response = await fetch<CoinsListingResponse>(
+		{
+			method: 'GET',
+			url: url,
+			cacheTtlSecs: day,
+		},
+		context
+	)
 
 	// verify
 	if (!response.body) {
@@ -665,11 +715,14 @@ export async function trendingCoins(
 ) {
 	// fetch
 	const url = `https://api.coingecko.com/api/v3/search/trending`
-	const response = await context.fetcher.fetch<TrendingResponse>({
-		method: 'GET',
-		url: url,
-		cacheTtlSecs: day,
-	})
+	const response = await fetch<TrendingResponse>(
+		{
+			method: 'GET',
+			url: url,
+			cacheTtlSecs: day,
+		},
+		context
+	)
 
 	// verify
 	if (!response.body || !response.body.coins) {
@@ -692,11 +745,14 @@ export async function searchCoins(
 	const url = coda.withQueryParams(`https://api.coingecko.com/api/v3/search`, {
 		query: search,
 	})
-	const response = await context.fetcher.fetch<SearchResponse>({
-		method: 'GET',
-		url: url,
-		cacheTtlSecs: day,
-	})
+	const response = await fetch<SearchResponse>(
+		{
+			method: 'GET',
+			url: url,
+			cacheTtlSecs: day,
+		},
+		context
+	)
 
 	// verify
 	if (!response.body || !response.body.coins) {
