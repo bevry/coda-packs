@@ -105,34 +105,50 @@ export type RawTweet = components['schemas']['Tweet']
 export interface Tweet {
 	id: string
 	content: string
-	author_id?: string
-	// conversation_id?: string
-	// in_reply_to_user_id?: string
+	created_at: string
+	author_id: string
+	conversation_id: string
+	in_reply_to_user_id: string
 	// source?: string
-	created_at?: string
 }
 export const TweetSchema = coda.makeObjectSchema({
 	properties: {
 		id: {
-			description: 'Identifier',
+			// Unique identifier of this Tweet. This is returned as a string in order to avoid complications with languages and tools that cannot handle large integers.
+			description: 'Tweet ID',
 			required: true,
 			...stringSchema,
 		},
 		content: {
+			// The content of the Tweet.
 			description: 'Content',
 			required: true,
 			fromKey: 'text',
 			...stringSchema,
 		},
+		created_at: {
+			// Creation time of the Tweet. For example: 2020-12-10T20:00:10Z
+			description: `Creation Time`,
+			required: true,
+			...datetimeStringSchema,
+		},
 		author_id: {
-			description: 'Author ID',
-			required: false,
+			// Unique identifier of this user. This is returned as a string in order to avoid complications with languages and tools that cannot handle large integers.
+			description: 'User ID of Tweet Author',
+			required: true,
 			...stringSchema,
 		},
-		created_at: {
-			description: 'Creation time',
-			required: false,
-			...datetimeStringSchema,
+		conversation_id: {
+			// The Tweet ID of the original Tweet of the conversation (which includes direct replies, replies of replies).
+			description: 'Conversation Tweet ID',
+			required: true,
+			...stringSchema,
+		},
+		in_reply_to_user_id: {
+			// If this Tweet is a Reply, indicates the user ID of the parent Tweet's author. This is returned as a string in order to avoid complications with languages and tools that cannot handle large integers.
+			description: `User ID of Parent Tweet`,
+			required: true,
+			...stringSchema,
 		},
 	},
 	identity: {

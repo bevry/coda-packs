@@ -94,7 +94,13 @@ export async function TweetsByUserId(
 	const query: TwitterParams<usersIdTweets> = {
 		max_results: 100,
 		// @ts-ignore
-		'tweet.fields': ['id', 'author_id', 'created_at'].join(','),
+		'tweet.fields': [
+			'id',
+			'author_id',
+			'created_at',
+			'conversation_id',
+			'in_reply_to_user_id',
+		].join(','),
 	}
 	const url = coda.withQueryParams(
 		`https://api.twitter.com/2/users/${id}/tweets`,
