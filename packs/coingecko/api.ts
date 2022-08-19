@@ -528,7 +528,7 @@ export async function getCoinMarket(
 		localization: false,
 	}
 	const url = coda.withQueryParams(
-		`https://api.coingecko.com/api/v3/coins/${id}/history`,
+		`https://api.coingecko.com/api/v3/coins/${request.id}/history`,
 		query
 	)
 	const response = await context.fetcher.fetch<CoinHistoryResponse>({
