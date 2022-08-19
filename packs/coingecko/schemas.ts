@@ -371,7 +371,7 @@ export const CurrencyComparisonSchema = coda.makeObjectSchema({
 		},
 	},
 	identity: {
-		name: 'CurrencyCompparison',
+		name: 'CurrencyComparison',
 	},
 	displayProperty: 'usd',
 	featuredProperties: ['usd', 'btc', 'eth', 'eur'],
@@ -662,6 +662,11 @@ export const CoinMarketSchema = coda.makeObjectSchema({
 			required: true,
 			...stringSchema,
 		},
+		json: {
+			description: 'JSON data for sending to Coda Column Types',
+			required: true,
+			...stringSchema,
+		},
 		coin: CoinSchema,
 		when: {
 			description: 'Date of this data',
@@ -670,32 +675,32 @@ export const CoinMarketSchema = coda.makeObjectSchema({
 		},
 		price_usd: {
 			description: 'Price in USD',
-			required: true,
+			required: false,
 			...usdSchema,
 		},
 		price_btc: {
 			description: 'Price in BTC',
-			required: true,
+			required: false,
 			...currencySchema,
 		},
 		volume_usd: {
 			description: 'Volume in USD',
-			required: true,
+			required: false,
 			...usdSchema,
 		},
 		volume_btc: {
 			description: 'Volume in BTC',
-			required: true,
+			required: false,
 			...currencySchema,
 		},
 		market_cap_usd: {
 			description: 'Market Cap in USD',
-			required: true,
+			required: false,
 			...usdSchema,
 		},
 		market_cap_btc: {
 			description: 'Market Cap in BTC',
-			required: true,
+			required: false,
 			...currencySchema,
 		},
 		// market
@@ -826,6 +831,11 @@ export const CoinDetailsSchema = coda.makeObjectSchema({
 			required: true,
 			...stringSchema,
 		},
+		json: {
+			description: 'JSON data for sending to Coda Column Types',
+			required: true,
+			...stringSchema,
+		},
 		when: {
 			description: 'Date of this data',
 			required: true,
@@ -835,11 +845,11 @@ export const CoinDetailsSchema = coda.makeObjectSchema({
 		market: CoinMarketSchema,
 		categories: {
 			description: 'CoinGecko Category Identifiers',
-			required: true,
+			required: false,
 			type: coda.ValueType.Array,
 			items: {
 				type: coda.ValueType.String,
-				required: true,
+				required: false,
 			},
 		},
 		block_time_in_minutes: {
@@ -848,55 +858,55 @@ export const CoinDetailsSchema = coda.makeObjectSchema({
 			...minutesSchema,
 		},
 		coingecko_rank: {
-			required: true,
+			required: false,
 			...numberSchema,
 		},
 		coingecko_score: {
-			required: true,
+			required: false,
 			...numberSchema,
 		},
 		community_score: {
-			required: true,
+			required: false,
 			...numberSchema,
 		},
 		country_origin: {
-			required: true,
+			required: false,
 			...stringSchema,
 		},
 		description: {
-			required: true,
+			required: false,
 			...stringSchema,
 		},
 		developer_score: {
-			required: true,
+			required: false,
 			...numberSchema,
 		},
 		genesis_date: {
-			required: true,
+			required: false,
 			...datetimeStringSchema,
 		},
 		hashing_algorithm: {
-			required: true,
+			required: false,
 			...stringSchema,
 		},
 		liquidity_score: {
-			required: true,
+			required: false,
 			...numberSchema,
 		},
 		market_cap_rank: {
-			required: true,
+			required: false,
 			...numberSchema,
 		},
 		public_interest_score: {
-			required: true,
+			required: false,
 			...numberSchema,
 		},
 		sentiment_votes_down_percentage: {
-			required: true,
+			required: false,
 			...percentSchema,
 		},
 		sentiment_votes_up_percentage: {
-			required: true,
+			required: false,
 			...percentSchema,
 		},
 		// urls

@@ -6,5 +6,16 @@
     "**/node_modules": true,
     "**/patches": true,
     "**/package-lock.json": true
-  }
+  },
+  "cSpell.words": [
+    "alexa",
+    "bitcointalk",
+    "codahq",
+    "datetime",
+    "defi",
+    "icos",
+    "mcap",
+    "sats",
+    "sparkline"
+  ]
 }

@@ -1,4 +1,5 @@
 import * as coda from '@codahq/packs-sdk'
+
 import {
 	getCategories,
 	getCoinDetails,
@@ -11,7 +12,7 @@ import {
 	searchCoins,
 	trendingCoins,
 } from './api'
-import { CoinIdParam, CoinSearchParam, WhenParam } from './params'
+
 import {
 	CategorySchema,
 	CoinDetailsSchema,
@@ -23,13 +24,19 @@ import {
 	GlobalMarketSchema,
 } from './schemas'
 
-// ====================================
-// CODA BASE
+import { CoinInputParam, CoinSearchParam, WhenParam } from './params'
 
-export const pack = coda.newPack()
+// ====================================
+// CODA PACK
 
 // https://www.coingecko.com/en/api/documentation
+export const pack = coda.newPack()
 pack.addNetworkDomain('api.coingecko.com')
+// pack.setUserAuthentication({
+// 	type: coda.AuthenticationType.HeaderBearerToken,
+// 	instructionsUrl: 'https://www.coingecko.com/en/api/pricing',
+// })
+// this needs to be optional
 
 // ====================================
 // DEFI MARKET
@@ -110,7 +117,7 @@ pack.addFormula({
 		'Fetch market data for a coin identifier, including historical support.',
 	resultType: coda.ValueType.Object,
 	schema: CoinMarketSchema,
-	parameters: [CoinIdParam, WhenParam],
+	parameters: [CoinInputParam, WhenParam],
 	execute: getCoinMarket,
 })
 
@@ -122,7 +129,7 @@ pack.addFormula({
 	description: 'Fetch details for a coin identifier.',
 	resultType: coda.ValueType.Object,
 	schema: CoinDetailsSchema,
-	parameters: [CoinIdParam],
+	parameters: [CoinInputParam],
 	execute: getCoinDetails,
 })
 
@@ -181,7 +188,7 @@ pack.addSyncTable({
 	},
 })
 
-// Echange Rates
+// Exchange Rates
 pack.addSyncTable({
 	name: 'BitcoinExchangeRates',
 	schema: ExchangeRateSchema,

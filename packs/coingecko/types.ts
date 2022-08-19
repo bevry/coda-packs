@@ -1,6 +1,6 @@
-import { StringFormulaDef } from '@codahq/packs-sdk'
-
 export type Currencies = Array<string>
+
+// type Missing = undefined | null
 
 interface ExchangeRateResponse {
 	name: string
@@ -29,44 +29,50 @@ export interface CoinMarket
 	extends Partial<CommunityData>,
 		Partial<DeveloperData> {
 	id: string
+	json: string
 	when: string
 	coin: Coin
+
 	// historical and detailed
-	price: CurrencyComparisons
-	volume: CurrencyComparisons
-	market_cap: CurrencyComparisons
+	price?: CurrencyComparisons
+	volume?: CurrencyComparisons
+	market_cap?: CurrencyComparisons
+
 	// public interest
-	alexa_rank: null | number
-	bing_matches: null | number
+	alexa_rank?: number
+	bing_matches?: number
+
 	// manual
-	price_usd: null | number
-	price_btc: null | number
-	volume_usd: null | number
-	volume_btc: null | number
-	market_cap_usd: null | number
-	market_cap_btc: null | number
+	price_usd?: number
+	price_btc?: number
+	volume_usd?: number
+	volume_btc?: number
+	market_cap_usd?: number
+	market_cap_btc?: number
 }
 export interface CoinDetails extends Partial<Links>, Partial<Repos> {
 	id: string
+	json: string
 	when: string // last_updated
 	coin: Coin
 	market: CoinMarket
+
 	// detailed response
-	categories: Array<string> | null
-	block_time_in_minutes: number
-	coingecko_rank: number
-	coingecko_score: number
-	community_score: number
-	country_origin: string
-	description: string // Description
-	developer_score: number
-	genesis_date: string // iso
-	hashing_algorithm: string
-	liquidity_score: number
-	market_cap_rank: number
-	public_interest_score: number
-	sentiment_votes_down_percentage: number
-	sentiment_votes_up_percentage: number
+	categories: Array<string>
+	description?: string // Description
+	block_time_in_minutes?: number
+	coingecko_rank?: number
+	coingecko_score?: number
+	community_score?: number
+	country_origin?: string
+	developer_score?: number
+	genesis_date?: string // iso
+	hashing_algorithm?: string
+	liquidity_score?: number
+	market_cap_rank?: number
+	public_interest_score?: number
+	sentiment_votes_down_percentage?: number
+	sentiment_votes_up_percentage?: number
 }
 
 export interface CoinListingResponse {
@@ -80,7 +86,7 @@ interface CoinSearchResponse {
 	id: string
 	name: string
 	symbol: string
-	market_cap_rank: number | null
+	market_cap_rank?: number
 	large?: string
 	small?: string
 	thumb?: string
@@ -93,18 +99,18 @@ interface CoinTrendingResponse extends CoinSearchResponse {
 }
 
 export interface TrendingResponse {
-	coins: Array<{
+	coins?: Array<{
 		item: CoinTrendingResponse
-	}> | null
-	exchanges: [] | null
+	}>
+	exchanges?: []
 }
 
 export interface SearchResponse {
-	coins: Array<CoinSearchResponse> | null
-	exchanges: [] | null
-	icos: [] | null
-	categories: Array<CategorySearchResponse> | null
-	nfts: Array<NftSearchResponse> | null
+	coins?: Array<CoinSearchResponse>
+	exchanges?: []
+	icos?: []
+	categories?: Array<CategorySearchResponse>
+	nfts?: Array<NftSearchResponse>
 }
 
 export interface CoinHistoryResponse {
@@ -130,12 +136,12 @@ export interface CoinResponse {
 	// different from historical
 	last_updated: string
 	block_time_in_minutes: number
-	categories: Array<string> | null
+	categories?: Array<string>
 	coingecko_rank: number
 	coingecko_score: number
 	community_score: number
 	country_origin: string
-	description: Description
+	description?: Description
 	developer_score: number
 	genesis_date: string
 	hashing_algorithm: string
@@ -150,12 +156,12 @@ export interface CoinResponse {
 	community_data?: CommunityData
 	developer_data?: DeveloperData
 	// different from historical
-	additional_notices: [] | null
-	asset_platform_id: null
+	additional_notices?: []
+	asset_platform_id?: unknown
 	platforms: Platforms
-	public_notice: null
-	status_updates: [] | null
-	tickers: Array<TickersEntity> | null
+	public_notice?: unknown
+	status_updates?: []
+	tickers?: Array<TickersEntity>
 }
 
 interface MarketData {
@@ -165,10 +171,10 @@ interface MarketData {
 }
 
 interface MarketDataDetailed extends MarketData {
-	total_value_locked: null
-	mcap_to_tvl_ratio: null
-	fdv_to_tvl_ratio: null
-	roi: null
+	total_value_locked?: unknown
+	mcap_to_tvl_ratio?: unknown
+	fdv_to_tvl_ratio?: unknown
+	roi?: unknown
 	ath: CurrencyComparisons
 	ath_change_percentage: CurrencyComparisons
 	ath_date: CurrencyDates
@@ -204,6 +210,7 @@ interface MarketDataDetailed extends MarketData {
 	max_supply: number
 	circulating_supply: number
 	sparkline_7d: Sparkline7d
+	/** iso string */
 	last_updated: string
 }
 
@@ -213,7 +220,7 @@ interface CategorySearchResponse {
 }
 
 interface NftSearchResponse {
-	id: string | null
+	id?: string
 	name: string
 	symbol: string
 	large?: string
@@ -226,28 +233,28 @@ interface Platforms {
 }
 
 interface Description {
-	en: string
+	[key: string]: string
 }
 
 interface Links {
-	homepage: Array<string> | null
-	blockchain_site: Array<string> | null
-	official_forum_url: Array<string> | null
-	chat_url: Array<string> | null
-	announcement_url: Array<string> | null
-	twitter_screen_name: string
-	facebook_username: string
-	bitcointalk_thread_identifier: null
-	telegram_channel_identifier: string
-	subreddit_url: string
+	homepage?: Array<string>
+	blockchain_site?: Array<string>
+	official_forum_url?: Array<string>
+	chat_url?: Array<string>
+	announcement_url?: Array<string>
+	twitter_screen_name?: string
+	facebook_username?: string
+	bitcointalk_thread_identifier?: string
+	telegram_channel_identifier?: string
+	subreddit_url?: string
 }
 interface LinksResponse extends Links {
 	repos_url: Repos
 }
 
 interface Repos {
-	github: Array<string> | null
-	bitbucket: [] | null
+	github?: Array<string>
+	bitbucket?: []
 }
 
 interface Image {
@@ -389,41 +396,41 @@ interface CurrencyComparisons {
 }
 
 interface Sparkline7d {
-	price: null | Array<number>
+	price?: Array<number>
 }
 
 interface CommunityData {
 	// even doing ? here to mark it as optional, does not fix the type error, so seems it is nested object schemas are disregarding `required: false`
-	facebook_likes?: null | number
-	twitter_followers: null | number
-	reddit_average_posts_48h: null | number
-	reddit_average_comments_48h: null | number
-	reddit_subscribers: null | number
-	reddit_accounts_active_48h: null | number
-	telegram_channel_user_count: null | number
+	facebook_likes?: number
+	twitter_followers?: number
+	reddit_average_posts_48h?: number
+	reddit_average_comments_48h?: number
+	reddit_subscribers?: number
+	reddit_accounts_active_48h?: number
+	telegram_channel_user_count?: number
 }
 
 interface DeveloperData {
-	forks: null | number
-	stars: null | number
-	subscribers: null | number
-	total_issues: null | number
-	closed_issues: null | number
-	pull_requests_merged: null | number
-	pull_request_contributors: null | number
-	commit_count_4_weeks: null | number
-	last_4_weeks_commit_activity_series: null | Array<number>
-	code_additions_deletions_4_weeks: CodeAdditionsDeletions4Weeks
+	forks?: number
+	stars?: number
+	subscribers?: number
+	total_issues?: number
+	closed_issues?: number
+	pull_requests_merged?: number
+	pull_request_contributors?: number
+	commit_count_4_weeks?: number
+	last_4_weeks_commit_activity_series?: Array<number>
+	code_additions_deletions_4_weeks?: CodeAdditionsDeletions4Weeks
 }
 
 interface CodeAdditionsDeletions4Weeks {
-	additions: null | number
-	deletions: null | number
+	additions?: number
+	deletions?: number
 }
 
 interface PublicInterestStats {
-	alexa_rank: null | number
-	bing_matches: null | number
+	alexa_rank?: number
+	bing_matches?: number
 }
 
 interface TickersEntity {
@@ -441,10 +448,10 @@ interface TickersEntity {
 	last_fetch_at: string
 	is_anomaly: boolean
 	is_stale: boolean
-	trade_url: null | string
+	trade_url?: string
 	token_info_url: null
 	coin_id: string
-	target_coin_id: null | string
+	target_coin_id?: string
 }
 
 interface Market {

@@ -9,16 +9,16 @@ export const CoinSearchParam = coda.makeParameter({
 	optional: false,
 })
 
-export const CoinIdParam = coda.makeParameter({
-	name: 'Coin ID',
+export const CoinInputParam = coda.makeParameter({
+	name: 'Coin Identifier or URL or JSON',
 	description:
-		'Use `Coins` sync table to get a list of supported coins, otherwise use the URL: https://coingecko.com/coins/<identifier>',
+		'Use `SearchCoins("query").First().id` to discover the Coin Identifier',
 	type: coda.ParameterType.String,
 	suggestedValue: 'bitcoin',
 })
 
 export const CurrencyParam = coda.makeParameter({
-	name: 'Currency ID',
+	name: 'Currency Identifier',
 	description: 'Use `GetCurrencies` to get a list of supported currencies',
 	type: coda.ParameterType.String,
 	suggestedValue: 'usd',
@@ -27,7 +27,7 @@ export const CurrencyParam = coda.makeParameter({
 
 export const WhenParam = coda.makeParameter({
 	name: 'When',
-	description: 'The date identifier: <dd-mm-yyyy>, eg. 30-12-2017',
+	description: 'The date to fetch historical data for.',
 	type: coda.ParameterType.Date,
 	optional: true,
 })
