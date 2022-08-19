@@ -23,7 +23,7 @@ import type {
 export const minute = 60
 export const hour = minute * 60
 export const day = hour * 24
-export const year = day * 365
+export const longTime = day * 7
 
 // ====================================
 // HELPERS
@@ -87,7 +87,7 @@ function parseInput(input: string) {
 				const coinDetails = data as CoinDetails
 				const coinMarket: CoinMarket = coinDetails.market
 				return {
-					id: coinMarket.id,
+					id: getCoinIdFromInput(coinMarket.id),
 					when: coinMarket.when,
 					coinDetails,
 					coinMarket,
@@ -95,7 +95,7 @@ function parseInput(input: string) {
 			} else if (data?.codaSchemaIdentity === 'CoinMarket') {
 				const coinMarket = data as CoinMarket
 				return {
-					id: coinMarket.id,
+					id: getCoinIdFromInput(coinMarket.id),
 					when: coinMarket.when,
 					coinMarket,
 				}
@@ -211,6 +211,10 @@ function parseCoinMarket(
 	}
 
 	// return
+	return coinMarket
+}
+
+function wrapCoinMarket(coinMarket: CoinMarket): CoinMarket {
 	return {
 		...coinMarket,
 		json: JSON.stringify({
@@ -272,10 +276,17 @@ function parseCoinDetails(result: CoinResponse): CoinDetails {
 	}
 
 	// return
+	return coinDetails
+}
+
+function wrapCoinDetails(coinDetails: CoinDetails): CoinDetails {
+	const market = wrapCoinMarket(coinDetails.market)
 	return {
 		...coinDetails,
+		market,
 		json: JSON.stringify({
 			...coinDetails,
+			market,
 			codaSchemaIdentity: 'CoinDetails',
 		}),
 	}
@@ -512,8 +523,8 @@ export async function getCoinMarket(
 	// prepare
 	const request = parseInput(input)
 	const when = getCoinGeckoDate(inputWhen || request.when)
-	if (request.coinMarket && request.coinDetails?.when === when.toISOString()) {
-		return request.coinMarket
+	if (request.coinMarket?.when === when.toISOString()) {
+		return wrapCoinMarket(request.coinMarket)
 	}
 	const wasToday = isToday(when)
 
@@ -534,27 +545,22 @@ export async function getCoinMarket(
 	const response = await context.fetcher.fetch<CoinHistoryResponse>({
 		method: 'GET',
 		url: url,
-		cacheTtlSecs: wasToday ? day : year,
+		cacheTtlSecs: wasToday ? day : longTime,
 	})
 
 	// verify
-	if (!response.body) {
-		throw new coda.UserVisibleError(`Failed to fetch currencies.`)
-	}
-	if (response.body.market_data == null) {
+	if (!response.body || !response.body.market_data) {
 		if (wasToday) {
 			// try yesterday, as perhaps we live in the future
 			return getCoinMarket([request.id, getYesterday(when)], context)
 		} else {
-			throw new coda.UserVisibleError(
-				`Coin [${request.id}] returns no market data.`
-			)
+			throw new coda.UserVisibleError(`Failed to fetch coin market data.`)
 		}
 	}
 
 	// return
 	const coinMarket = parseCoinMarket(response.body, when)
-	return coinMarket
+	return wrapCoinMarket(coinMarket)
 }
 
 // ====================================
@@ -566,7 +572,7 @@ export async function getCoinDetails(
 ): Promise<CoinDetails> {
 	// prepare
 	const request = parseInput(input)
-	if (request.coinDetails) return request.coinDetails
+	if (request.coinDetails) return wrapCoinDetails(request.coinDetails)
 
 	// check
 	if (!request.id) {
@@ -599,7 +605,7 @@ export async function getCoinDetails(
 
 	// return
 	const coinDetails = parseCoinDetails(response.body)
-	return coinDetails
+	return wrapCoinDetails(coinDetails)
 }
 
 // export async function getCoinCurrency(

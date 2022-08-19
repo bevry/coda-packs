@@ -662,11 +662,6 @@ export const CoinMarketSchema = coda.makeObjectSchema({
 			required: true,
 			...stringSchema,
 		},
-		json: {
-			description: 'JSON data for sending to Coda Column Types',
-			required: true,
-			...stringSchema,
-		},
 		coin: CoinSchema,
 		when: {
 			description: 'Date of this data',
@@ -795,6 +790,12 @@ export const CoinMarketSchema = coda.makeObjectSchema({
 			required: false,
 			...numberSchema,
 		},
+		// wrapper
+		json: {
+			description: 'JSON data for sending to Coda Column Types',
+			required: true,
+			...stringSchema,
+		},
 	},
 	identity: {
 		name: 'CoinMarket',
@@ -828,11 +829,6 @@ export const CoinDetailsSchema = coda.makeObjectSchema({
 		id: {
 			description:
 				'CoinGecko Identifier for the Coin, e.g. `1x-short-bitcoin-token`',
-			required: true,
-			...stringSchema,
-		},
-		json: {
-			description: 'JSON data for sending to Coda Column Types',
 			required: true,
 			...stringSchema,
 		},
@@ -938,6 +934,12 @@ export const CoinDetailsSchema = coda.makeObjectSchema({
 		// repo urls
 		github: linkSchema,
 		bitbucket: linkSchema,
+		// wrapper
+		json: {
+			description: 'JSON data for sending to Coda Column Types',
+			required: true,
+			...stringSchema,
+		},
 	},
 	identity: {
 		name: 'CoinDetails',
