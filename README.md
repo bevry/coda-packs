@@ -22,13 +22,7 @@
 
 This repository is the monorepo for the various packs by [Benjamin Lupton](https://balupton.com) / [Bevry](https://bevry.me), which can be found inside the `packs/` directory.
 
-You can find the published ones on the Coda store at:
-
--   [Formatting](https://coda.io/packs/formatting-14448)
--   [Twitch](https://coda.io/packs/twitch-14122)
--   [CoinGecko](https://coda.io/packs/coingecko-11734)
--   [Zapier Hooks](https://coda.io/packs/zapier-hooks-11840)
--   [Twitter](https://coda.io/packs/twitter-11837)
+[All of Benjamin’s Packs are livestreamed to twitch, open-source, and sponsorable.](https://coda.io/@balupton/packs)
 
 <!-- BACKERS/ -->
 
