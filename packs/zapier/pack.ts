@@ -35,10 +35,13 @@ pack.addFormula({
 	isAction: true,
 	execute: async function ([where, body, bodyParamsList = [], queryParamsList = []], context) {
 		// verify
-		if ( body && bodyParamsList.length ) {
-			throw new coda.UserVisibleError(
-				'If a body was provided, you must not also provide body <key, value> parameters'
-			)
+		if ( body && (bodyParamsList.length || queryParamsList.length)  ) {
+			throw new coda.UserVisibleError([
+				'You cannot use body with bodyParams nor queryParams.',
+				'Catch Raw Hooks only use body.',
+				'Catch Hooks only use either bodyParams, queryParams, or both.',
+				'See https://coda.io/@balupton/zapier-hooks-pack#_luaQX for details.'
+			].join('\n'))
 		}
 
 		// generate body
