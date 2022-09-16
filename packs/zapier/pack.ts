@@ -49,7 +49,7 @@ pack.addFormula({
 			const bodyParamsRecord: Record<string, string> = {}
 			while ( bodyParamsList.length ) {
 				const key = bodyParamsList.shift() as string
-				const value = bodyParamsList.shift() as string
+				const value = bodyParamsList.length ? bodyParamsList.shift() as string : ''
 				bodyParamsRecord[key] = value
 			}
 			body = JSON.stringify(bodyParamsRecord)
@@ -57,12 +57,10 @@ pack.addFormula({
 
 		// generate url
 		const queryParamsRecord: Record<string, string> = {}
-		if ( queryParamsList.length ) {
-			while ( queryParamsList.length ) {
-				const key = queryParamsList.shift() as string
-				const value = queryParamsList.shift() as string
-				queryParamsRecord[key] = value
-			}
+		while ( queryParamsList.length ) {
+			const key = queryParamsList.shift() as string
+			const value = queryParamsList.length ? queryParamsList.shift() as string : ''
+			queryParamsRecord[key] = value
 		}
 		const url = coda.withQueryParams(
 			where,
