@@ -1,5 +1,4 @@
 {
-  "workbench.colorTheme": "Monokai Night",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "files.exclude": {
     "**/.coda.json": true,
