@@ -1,8 +1,9 @@
 {
-  "name": "Bevry's Coda Packs",
+  "title": "Bevry's Coda Packs",
+  "name": "@bevry/coda-packs",
   "version": "0.0.0",
   "private": true,
-  "license": "CC-BY-NC-SA-4.0",
+  "license": "Artistic-2.0",
   "badges": {
     "list": [
       "githubsponsors",

@@ -4,6 +4,7 @@
 
 <!-- /TITLE -->
 
+
 <!-- BADGES/ -->
 
 <span class="badge-githubsponsors"><a href="https://github.com/sponsors/balupton" title="Donate to this project using GitHub Sponsors"><img src="https://img.shields.io/badge/github-donate-yellow.svg" alt="GitHub Sponsors donate button" /></a></span>
@@ -17,6 +18,7 @@
 <span class="badge-wishlist"><a href="https://bevry.me/wishlist" title="Buy an item on our wishlist for us"><img src="https://img.shields.io/badge/wishlist-donate-yellow.svg" alt="Wishlist browse button" /></a></span>
 
 <!-- /BADGES -->
+
 
 # About
 
@@ -54,7 +56,10 @@ These amazing people have contributed code to this project:
 
 <ul><li><a href="https://github.com/balupton">Benjamin Lupton</a> — <a href="https://github.com/bevry/coda-packs/commits?author=balupton" title="View the GitHub contributions of Benjamin Lupton on repository bevry/coda-packs">view contributions</a></li></ul>
 
+
+
 <!-- /BACKERS -->
+
 
 <!-- LICENSE/ -->
 
@@ -66,6 +71,6 @@ Unless stated otherwise all works are:
 
 and licensed under:
 
-<ul><li><a href="http://spdx.org/licenses/CC-BY-NC-SA-4.0.html">Creative Commons Attribution Non Commercial Share Alike 4.0 International</a></li></ul>
+<ul><li><a href="http://spdx.org/licenses/Artistic-2.0.html">Artistic License 2.0</a></li></ul>
 
 <!-- /LICENSE -->
