@@ -55,6 +55,7 @@ docs/
 # CUSTOM
 
 .now
+_upload_build/
 **/patches/
 **/node_modules/
 **/.coda.json
