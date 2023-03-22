@@ -16,6 +16,15 @@ export const CodaBlockLanguageParam = coda.makeParameter({
 	optional: true,
 })
 
+function hydrateUnsupportedElements(html: string) {
+	return html
+		.replace(
+			/<(sup|sub)>/g,
+			'<$1><span style="vertical-align: $1; font-size: 0.5em;"><em>'
+		)
+		.replace(/<\/(sup|sub)>/g, '</em></span></$1>')
+}
+
 pack.addFormula({
 	name: 'Newline',
 	description: 'Give us a newline',
@@ -34,7 +43,7 @@ pack.addFormula({
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
 	execute: async function ([input]: [string], context) {
-		return input
+		return hydrateUnsupportedElements(input)
 	},
 })
 
@@ -45,7 +54,7 @@ pack.addFormula({
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
 	execute: async function ([input]: [string], context) {
-		return `<h1>${input}</h1>`
+		return hydrateUnsupportedElements(`<h1>${input}</h1>`)
 	},
 })
 
@@ -56,7 +65,7 @@ pack.addFormula({
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
 	execute: async function ([input]: [string], context) {
-		return `<h2>${input}</h2>`
+		return hydrateUnsupportedElements(`<h2>${input}</h2>`)
 	},
 })
 
@@ -67,7 +76,7 @@ pack.addFormula({
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
 	execute: async function ([input]: [string], context) {
-		return `<h3>${input}</h3>`
+		return hydrateUnsupportedElements(`<h3>${input}</h3>`)
 	},
 })
 
@@ -78,7 +87,7 @@ pack.addFormula({
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
 	execute: async function ([input]: [string], context) {
-		return `<h4>${input}</h4>`
+		return hydrateUnsupportedElements(`<h4>${input}</h4>`)
 	},
 })
 
@@ -89,7 +98,7 @@ pack.addFormula({
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
 	execute: async function ([input]: [string], context) {
-		return `<em>${input}<em>`
+		return hydrateUnsupportedElements(`<em>${input}<em>`)
 	},
 })
 
@@ -100,7 +109,7 @@ pack.addFormula({
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
 	execute: async function ([input]: [string], context) {
-		return `<strong>${input}</strong>`
+		return hydrateUnsupportedElements(`<strong>${input}</strong>`)
 	},
 })
 
@@ -111,7 +120,7 @@ pack.addFormula({
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
 	execute: async function ([input]: [string], context) {
-		return `<u>${input}</u>`
+		return hydrateUnsupportedElements(`<u>${input}</u>`)
 	},
 })
 
@@ -123,7 +132,7 @@ pack.addFormula({
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
 	execute: async function ([input]: [string], context) {
-		return `<s>${input}</s>`
+		return hydrateUnsupportedElements(`<s>${input}</s>`)
 	},
 })
 
@@ -134,7 +143,7 @@ pack.addFormula({
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
 	execute: async function ([input]: [string], context) {
-		return `<code>${input}</code>`
+		return hydrateUnsupportedElements(`<code>${input}</code>`)
 	},
 })
 
@@ -146,7 +155,7 @@ pack.addFormula({
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
 	execute: async function ([input]: [string], context) {
-		return `<sup>${input}</sup>`
+		return hydrateUnsupportedElements(`<sup>${input}</sup>`)
 	},
 })
 
@@ -158,7 +167,7 @@ pack.addFormula({
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
 	execute: async function ([input]: [string], context) {
-		return `<sub>${input}</sub>`
+		return hydrateUnsupportedElements(`<sub>${input}</sub>`)
 	},
 })
 
