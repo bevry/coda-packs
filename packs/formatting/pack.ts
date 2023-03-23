@@ -229,6 +229,17 @@ pack.addFormula({
 })
 
 pack.addFormula({
+	name: 'HtmlPreformatted',
+	description: 'Make the text render as a preformatted block',
+	parameters: [UnformattedTextParam],
+	resultType: coda.ValueType.String,
+	codaType: coda.ValueHintType.Html,
+	execute: async function ([input]: [string], context) {
+		return hydrateUnsupportedElements(`<pre>${input}</pre>`)
+	},
+})
+
+pack.addFormula({
 	name: 'HtmlElements',
 	description:
 		'Attempt to render all the elements that Coda may or may not support',
