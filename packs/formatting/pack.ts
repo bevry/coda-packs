@@ -148,7 +148,7 @@ pack.addFormula({
 pack.addFormula({
 	name: 'HtmlStrikethrough',
 	description:
-		'Make the text have a line through it, as if it has been cancelled out',
+		'Make the text render with a line through it, as if it has been cancelled out',
 	parameters: [UnformattedTextParam],
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
@@ -184,7 +184,7 @@ pack.addFormula({
 
 pack.addFormula({
 	name: 'HtmlCodeInline',
-	description: 'Make the text as inline code',
+	description: 'Make the text render as inline code',
 	parameters: [UnformattedTextParam],
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
@@ -196,7 +196,7 @@ pack.addFormula({
 pack.addFormula({
 	name: 'HtmlSupertext',
 	description:
-		'Make the text as supertext, which currently Coda does not support, so it will be replaced by emphasis',
+		'Make the text render as supertext, which currently Coda does not support, so it will be replaced by emphasis',
 	parameters: [UnformattedTextParam],
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
@@ -208,12 +208,23 @@ pack.addFormula({
 pack.addFormula({
 	name: 'HtmlSubtext',
 	description:
-		'Make the text as subtext, which currently Coda does not support, so it will be replaced by emphasis',
+		'Make the text render as subtext, which currently Coda does not support, so it will be replaced by emphasis',
 	parameters: [UnformattedTextParam],
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
 	execute: async function ([input]: [string], context) {
 		return hydrateUnsupportedElements(`<sub>${input}</sub>`)
+	},
+})
+
+pack.addFormula({
+	name: 'HtmlQuote',
+	description: 'Make the text render as a quote',
+	parameters: [UnformattedTextParam],
+	resultType: coda.ValueType.String,
+	codaType: coda.ValueHintType.Html,
+	execute: async function ([input]: [string], context) {
+		return hydrateUnsupportedElements(`<blockquote>${input}</blockquote>`)
 	},
 })
 
@@ -483,7 +494,7 @@ pack.addFormula({
 pack.addFormula({
 	name: 'MarkdownStrikethrough',
 	description:
-		'Make the text have a line through it, as if it has been cancelled out',
+		'Make the text render with a line through it, as if it has been cancelled out',
 	parameters: [UnformattedTextParam],
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Markdown,
@@ -494,7 +505,7 @@ pack.addFormula({
 
 pack.addFormula({
 	name: 'MarkdownCodeInline',
-	description: 'Make the text as inline code',
+	description: 'Make the text render as inline code',
 	parameters: [UnformattedTextParam],
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Markdown,
@@ -505,7 +516,7 @@ pack.addFormula({
 
 pack.addFormula({
 	name: 'MarkdownCodeBlock',
-	description: 'Make the text as a code block',
+	description: 'Make the text render as a code block',
 	parameters: [UnformattedTextParam, CodaBlockLanguageParam],
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Markdown,
@@ -516,7 +527,7 @@ pack.addFormula({
 
 pack.addFormula({
 	name: 'MarkdownQuote',
-	description: 'Make each line of text, part of a quote',
+	description: 'Make each line of text render as the same quote',
 	parameters: [UnformattedTextParam],
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Markdown,
@@ -527,7 +538,7 @@ pack.addFormula({
 
 pack.addFormula({
 	name: 'MarkdownUnorderedList',
-	description: 'Make each line of text, as an unordered list item',
+	description: 'Make each line of text render as an unordered list item',
 	parameters: [UnformattedTextParam],
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Markdown,
@@ -538,7 +549,7 @@ pack.addFormula({
 
 pack.addFormula({
 	name: 'MarkdownOrderedList',
-	description: 'Make each line of text, as an ordered list item',
+	description: 'Make each line of text render as an ordered list item',
 	parameters: [UnformattedTextParam],
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Markdown,
