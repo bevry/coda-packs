@@ -3,26 +3,22 @@ import * as coda from '@codahq/packs-sdk'
 export const pack = coda.newPack()
 
 export const UnformattedTextParam = coda.makeParameter({
-	name: 'Unformatted Text',
+	name: 'UnformattedText',
 	description: 'The unformatted text that you would like to format',
 	type: coda.ParameterType.String,
 	optional: false,
 })
 
 export const CodaBlockLanguageParam = coda.makeParameter({
-	name: 'Code Language',
+	name: 'CodeLanguage',
 	description: 'The language that the code is using',
 	type: coda.ParameterType.String,
 	optional: true,
 })
 
 function hydrateUnsupportedElements(html: string) {
-	return html
-		.replace(
-			/<(sup|sub)>/g,
-			'<$1><span style="vertical-align: $1; font-size: 0.5em;"><em>'
-		)
-		.replace(/<\/(sup|sub)>/g, '</em></span></$1>')
+	// ALL elements within an unsupported element are trimmed
+	return html.replace(/<(sup|sub)>/g, '<em>').replace(/<\/(sup|sub)>/g, '</em>')
 }
 
 pack.addFormula({
@@ -35,6 +31,9 @@ pack.addFormula({
 		return '\n'
 	},
 })
+
+// ====================================
+// HTML
 
 pack.addFormula({
 	name: 'Html',
@@ -92,6 +91,28 @@ pack.addFormula({
 })
 
 pack.addFormula({
+	name: 'HtmlHeading5',
+	description: 'Make the text the fifth level header',
+	parameters: [UnformattedTextParam],
+	resultType: coda.ValueType.String,
+	codaType: coda.ValueHintType.Html,
+	execute: async function ([input]: [string], context) {
+		return hydrateUnsupportedElements(`<h5>${input}</h5>`)
+	},
+})
+
+pack.addFormula({
+	name: 'HtmlHeading6',
+	description: 'Make the text the sixth level header',
+	parameters: [UnformattedTextParam],
+	resultType: coda.ValueType.String,
+	codaType: coda.ValueHintType.Html,
+	execute: async function ([input]: [string], context) {
+		return hydrateUnsupportedElements(`<h6>${input}</h6>`)
+	},
+})
+
+pack.addFormula({
 	name: 'HtmlItalic',
 	description: 'Make the text italic',
 	parameters: [UnformattedTextParam],
@@ -132,7 +153,32 @@ pack.addFormula({
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
 	execute: async function ([input]: [string], context) {
+		// strike is
 		return hydrateUnsupportedElements(`<s>${input}</s>`)
+	},
+})
+
+pack.addFormula({
+	name: 'HtmlDelete',
+	description: 'Make the text indicate that it was deleted',
+	parameters: [UnformattedTextParam],
+	resultType: coda.ValueType.String,
+	codaType: coda.ValueHintType.Html,
+	execute: async function ([input]: [string], context) {
+		// strike is
+		return hydrateUnsupportedElements(`<del>${input}</del>`)
+	},
+})
+
+pack.addFormula({
+	name: 'HtmlInsert',
+	description: 'Make the text indicate that it was inserted',
+	parameters: [UnformattedTextParam],
+	resultType: coda.ValueType.String,
+	codaType: coda.ValueHintType.Html,
+	execute: async function ([input]: [string], context) {
+		// strike is
+		return hydrateUnsupportedElements(`<ins>${input}</ins>`)
 	},
 })
 
@@ -150,7 +196,7 @@ pack.addFormula({
 pack.addFormula({
 	name: 'HtmlSupertext',
 	description:
-		'Make the text as supertext, which is text above the standard line height',
+		'Make the text as supertext, which currently Coda does not support, so it will be replaced by emphasis',
 	parameters: [UnformattedTextParam],
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
@@ -162,7 +208,7 @@ pack.addFormula({
 pack.addFormula({
 	name: 'HtmlSubtext',
 	description:
-		'Make the text as subtext, which is text below the standard line height',
+		'Make the text as subtext, which currently Coda does not support, so it will be replaced by emphasis',
 	parameters: [UnformattedTextParam],
 	resultType: coda.ValueType.String,
 	codaType: coda.ValueHintType.Html,
@@ -170,6 +216,159 @@ pack.addFormula({
 		return hydrateUnsupportedElements(`<sub>${input}</sub>`)
 	},
 })
+
+pack.addFormula({
+	name: 'HtmlElements',
+	description:
+		'Attempt to render all the elements that Coda may or may not support',
+	parameters: [],
+	resultType: coda.ValueType.String,
+	codaType: coda.ValueHintType.Html,
+	execute: async function ([]: [], context) {
+		// https://developer.mozilla.org/en-US/docs/Web/HTML/Element
+		return [
+			'a',
+			'abbr',
+			'acronym',
+			'address',
+			'applet',
+			'area',
+			'article',
+			'aside',
+			'audio',
+			'b',
+			'base',
+			'bdi',
+			'bdo',
+			'bgsound',
+			'big',
+			'blink',
+			'blockquote',
+			'body',
+			'br',
+			'button',
+			'canvas',
+			'caption',
+			'center',
+			'cite',
+			'code',
+			'col',
+			'colgroup',
+			'content',
+			'data',
+			'datalist',
+			'dd',
+			'del',
+			'details',
+			'dfn',
+			'dialog',
+			'dir',
+			'div',
+			'dl',
+			'dt',
+			'em',
+			'embed',
+			'fieldset',
+			'figcaption',
+			'figure',
+			'font',
+			'footer',
+			'form',
+			'frame',
+			'frameset',
+			'h1',
+			'head',
+			'header',
+			'hgroup',
+			'hr',
+			'html',
+			'i',
+			'iframe',
+			'image',
+			'img',
+			'input',
+			'ins',
+			'kbd',
+			'keygen',
+			'label',
+			'legend',
+			'li',
+			'link',
+			'main',
+			'map',
+			'mark',
+			'marquee',
+			'menu',
+			'menuitem',
+			'meta',
+			'meter',
+			'nav',
+			'nobr',
+			'noembed',
+			'noframes',
+			'noscript',
+			'object',
+			'ol',
+			'optgroup',
+			'option',
+			'output',
+			'p',
+			'param',
+			'picture',
+			'plaintext',
+			'portal',
+			'pre',
+			'progress',
+			'q',
+			'rb',
+			'rp',
+			'rt',
+			'rtc',
+			'ruby',
+			's',
+			'samp',
+			'script',
+			'section',
+			'select',
+			'shadow',
+			'slot',
+			'small',
+			'source',
+			'spacer',
+			'span',
+			'strike',
+			'strong',
+			'style',
+			'sub',
+			'summary',
+			'sup',
+			'table',
+			'tbody',
+			'td',
+			'template',
+			'textarea',
+			'tfoot',
+			'th',
+			'thead',
+			'time',
+			'title',
+			'tr',
+			'track',
+			'tt',
+			'u',
+			'ul',
+			'var',
+			'video',
+			'wbr',
+			'xmp',
+		]
+			.map((i: string) => `<${i}>${i}</${i}>`)
+			.join(' ')
+	},
+})
+
+// ====================================
+// Markdown
 
 pack.addFormula({
 	name: 'Markdown',
@@ -225,6 +424,29 @@ pack.addFormula({
 		return `#### ${input}`
 	},
 })
+
+pack.addFormula({
+	name: 'MarkdownHeading5',
+	description: 'Make the text the fifth level header',
+	parameters: [UnformattedTextParam],
+	resultType: coda.ValueType.String,
+	codaType: coda.ValueHintType.Markdown,
+	execute: async function ([input]: [string], context) {
+		return `##### ${input}`
+	},
+})
+
+pack.addFormula({
+	name: 'MarkdownHeading6',
+	description: 'Make the text the sixth level header',
+	parameters: [UnformattedTextParam],
+	resultType: coda.ValueType.String,
+	codaType: coda.ValueHintType.Markdown,
+	execute: async function ([input]: [string], context) {
+		return `###### ${input}`
+	},
+})
+
 pack.addFormula({
 	name: 'MarkdownItalic',
 	description: 'Make the text italic',
