@@ -37,7 +37,7 @@ pack.addFormula({
 		}
 		const sublist = list.slice(
 			Math.floor(list.length / 3),
-			Math.ceil((list.length / 3) * 2)
+			Math.ceil((list.length / 3) * 2),
 		)
 		return sublist.reduce((a, b) => a + b, 0) / sublist.length
 	},

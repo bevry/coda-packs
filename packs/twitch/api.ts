@@ -30,7 +30,7 @@ function fetchFromTwitch<T>(
 	context: coda.SyncExecutionContext | coda.ExecutionContext,
 	method: FetchMethodType = 'GET',
 	url: string,
-	cache: number = hour
+	cache: number = hour,
 ) {
 	return context.fetcher.fetch<T>({
 		method,
@@ -78,13 +78,13 @@ function parseChannel(raw: RawChannel): Channel {
 
 export async function getActiveUser(
 	[]: [],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	const url = 'https://api.twitch.tv/helix/users'
 	const response = await fetchFromTwitch<ActiveUserResponse>(
 		context,
 		'GET',
-		url
+		url,
 	)
 	const raw: RawActiveUser = response.body.data[0]
 	const user: User = parseUser(raw)
@@ -94,7 +94,7 @@ export async function getActiveUser(
 // https://dev.twitch.tv/docs/api/reference#get-users
 export async function getUsersFromIdentifiers(
 	[...ids]: [...Array<string>],
-	context: coda.ExecutionContext
+	context: coda.ExecutionContext,
 ) {
 	// check
 	if (ids.join('') == '') {
@@ -117,7 +117,7 @@ export async function getUsersFromIdentifiers(
 
 export async function getUserByIdentifier(
 	[id]: [string],
-	context: coda.ExecutionContext
+	context: coda.ExecutionContext,
 ) {
 	const results = await getUsersFromIdentifiers([id], context)
 	return results[0]
@@ -126,7 +126,7 @@ export async function getUserByIdentifier(
 // https://dev.twitch.tv/docs/api/reference#get-users
 export async function getUsersFromLogins(
 	[...logins]: [...Array<string>],
-	context: coda.ExecutionContext
+	context: coda.ExecutionContext,
 ) {
 	// check
 	if (logins.join('') == '') {
@@ -149,7 +149,7 @@ export async function getUsersFromLogins(
 
 export async function getUserByLogin(
 	[login]: [string],
-	context: coda.ExecutionContext
+	context: coda.ExecutionContext,
 ) {
 	const results = await getUsersFromLogins([login], context)
 	return results[0]
@@ -158,7 +158,7 @@ export async function getUserByLogin(
 // https://dev.twitch.tv/docs/api/reference#search-channels
 export async function searchChannels(
 	[query, live_only = false]: [string, boolean],
-	context: coda.ExecutionContext
+	context: coda.ExecutionContext,
 ) {
 	// check
 	if (query == '') {
@@ -172,7 +172,7 @@ export async function searchChannels(
 			query,
 			live_only,
 			first: 100,
-		}
+		},
 	)
 	const response = await fetchFromTwitch<ChannelResponse>(context, 'GET', url)
 
@@ -190,7 +190,7 @@ export async function searchChannels(
 // https://dev.twitch.tv/docs/api/reference#get-channel-information
 export async function getChannelsFromIdentifiers(
 	[...ids]: [...Array<string>],
-	context: coda.ExecutionContext
+	context: coda.ExecutionContext,
 ) {
 	// check
 	if (ids.join('') == '') {
@@ -213,7 +213,7 @@ export async function getChannelsFromIdentifiers(
 
 export async function getChannelByIdentifier(
 	[id]: [string],
-	context: coda.ExecutionContext
+	context: coda.ExecutionContext,
 ) {
 	const results = await getChannelsFromIdentifiers([id], context)
 	return results[0]
@@ -226,9 +226,9 @@ export async function updateChannel(
 		string,
 		string,
 		string,
-		number
+		number,
 	],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	// send only necessary params
 	const body: UpdateChannelInformationRequest = {}
@@ -256,7 +256,7 @@ export async function updateChannel(
 		// verify
 		if (response.status !== 204) {
 			throw new coda.UserVisibleError(
-				`Failed to update the stream information.`
+				`Failed to update the stream information.`,
 			)
 		}
 	} else {
@@ -283,7 +283,7 @@ function parseTag(raw: RawTag): Tag {
 // https://www.twitch.tv/directory/all/tags
 export async function syncAvailableTags(
 	[]: [],
-	context: coda.SyncExecutionContext
+	context: coda.SyncExecutionContext,
 ) {
 	// fetch
 	const url = coda.withQueryParams('https://api.twitch.tv/helix/tags/streams', {
@@ -313,7 +313,7 @@ export async function syncAvailableTags(
 // https://dev.twitch.tv/docs/api/reference#get-stream-tags
 export async function getTagsFromChannelIdentifier(
 	[channel_id]: [string],
-	context: coda.ExecutionContext
+	context: coda.ExecutionContext,
 ) {
 	// fetch
 	const url = coda.withQueryParams('https://api.twitch.tv/helix/streams/tags', {
@@ -331,7 +331,7 @@ export async function getTagsFromChannelIdentifier(
 
 export async function getTagsFromIdentifiers(
 	[...ids]: [...Array<string>],
-	context: coda.ExecutionContext
+	context: coda.ExecutionContext,
 ) {
 	// check
 	if (ids.join('') == '') {
@@ -355,7 +355,7 @@ export async function getTagsFromIdentifiers(
 
 export async function getTagByIdentifier(
 	[id]: [string],
-	context: coda.ExecutionContext
+	context: coda.ExecutionContext,
 ) {
 	const results = await getTagsFromIdentifiers([id], context)
 	return results[0]
@@ -364,7 +364,7 @@ export async function getTagByIdentifier(
 // https://dev.twitch.tv/docs/api/reference#replace-stream-tags
 export async function replaceStreamTags(
 	[channel_id, ...tag_ids]: [string, ...Array<string>],
-	context: coda.ExecutionContext
+	context: coda.ExecutionContext,
 ) {
 	// check
 	if (channel_id == '' || tag_ids.join('') == '') {
@@ -372,7 +372,7 @@ export async function replaceStreamTags(
 	}
 	if (tag_ids.length > 5) {
 		throw new coda.UserVisibleError(
-			`Too many tags were provided, it must be at max 5.`
+			`Too many tags were provided, it must be at max 5.`,
 		)
 	}
 
@@ -415,7 +415,7 @@ function parseCategory(raw: RawCategory): Category {
 // https://dev.twitch.tv/docs/api/reference#get-top-games
 export async function getTopCategories(
 	[]: [],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	// fetch
 	const url = `https://api.twitch.tv/helix/games/top`
@@ -431,7 +431,7 @@ export async function getTopCategories(
 // https://dev.twitch.tv/docs/api/reference#search-categories
 export async function searchCategories(
 	[query]: [string],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	// check
 	if (query == '') {
@@ -443,7 +443,7 @@ export async function searchCategories(
 		'https://api.twitch.tv/helix/search/categories',
 		{
 			query,
-		}
+		},
 	)
 	const response = await fetchFromTwitch<GameResponse>(context, 'GET', url)
 
@@ -457,7 +457,7 @@ export async function searchCategories(
 // https://dev.twitch.tv/docs/api/reference#get-games
 export async function getCategoriesFromIdentifiers(
 	[...ids]: [...Array<string>],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	// check
 	if (ids.join('') == '') {
@@ -479,7 +479,7 @@ export async function getCategoriesFromIdentifiers(
 
 export async function getCategoryByIdentifier(
 	[id]: [string],
-	context: coda.ExecutionContext
+	context: coda.ExecutionContext,
 ) {
 	const results = await getCategoriesFromIdentifiers([id], context)
 	return results[0]
@@ -487,7 +487,7 @@ export async function getCategoryByIdentifier(
 
 export async function getCategoriesFromNames(
 	[...names]: [...Array<string>],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	// check
 	if (names.join('') == '') {
@@ -513,7 +513,7 @@ export async function getCategoriesFromNames(
 
 export async function getCategoryByName(
 	[name]: [string],
-	context: coda.ExecutionContext
+	context: coda.ExecutionContext,
 ) {
 	const results = await getCategoriesFromNames([name], context)
 	return results[0]

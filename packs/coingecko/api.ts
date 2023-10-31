@@ -31,7 +31,7 @@ export const longTime = day * 7
 
 async function fetch<T>(
 	request: coda.FetchRequest,
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	try {
 		return await context.fetcher.fetch<T>(request)
@@ -42,12 +42,12 @@ async function fetch<T>(
 			const coinGeckoErrorMessage = error.body?.status?.error_message
 			if (coinGeckoErrorCode === 429) {
 				throw new coda.UserVisibleError(
-					`Rate limits exceeded: https://coda.io/@balupton/coingecko/rate-limits-14`
+					`Rate limits exceeded: https://coda.io/@balupton/coingecko/rate-limits-14`,
 				)
 			}
 			throw new coda.UserVisibleError(
 				coinGeckoErrorMessage ||
-					`Required failed with error ${error.statusCode}`
+					`Required failed with error ${error.statusCode}`,
 			)
 		}
 		throw new coda.UserVisibleError('Request failed.')
@@ -96,7 +96,7 @@ function getCoinWhenFromInput(identifier: string): Date {
 function getCoinIdFromInput(input: string): string {
 	if (input.startsWith('http')) {
 		const match = input.match(
-			'^https?://.*?coingecko.com/.*?coins/(.+?)(@.+)?$'
+			'^https?://.*?coingecko.com/.*?coins/(.+?)(@.+)?$',
 		)
 		return ((match && match[1]) || input).toLowerCase()
 	} else {
@@ -163,7 +163,7 @@ function parseCoin(rawCoin: {
 }
 
 function parseCoins(
-	rawCoins: SearchResponse['coins'] | CoinsListingResponse
+	rawCoins: SearchResponse['coins'] | CoinsListingResponse,
 ): Coin[] {
 	return (rawCoins || []).map(parseCoin)
 }
@@ -174,7 +174,7 @@ function parseTrendingCoins(trendingCoins: TrendingResponse['coins']): Coin[] {
 
 function parseCoinMarket(
 	result: CoinResponse | CoinHistoryResponse,
-	when: Date
+	when: Date,
 ): CoinMarket {
 	// parse
 	const whenString = when.toISOString()
@@ -252,7 +252,7 @@ function wrapCoinMarket(coinMarket: CoinMarket): CoinMarket {
 
 function parseCoinDetails(result: CoinResponse): CoinDetails {
 	const when = getCoinGeckoDate(
-		result.last_updated || result.market_data?.last_updated
+		result.last_updated || result.market_data?.last_updated,
 	)
 	const whenString = when.toISOString()
 	const coin = parseCoin(result)
@@ -319,7 +319,7 @@ function wrapCoinDetails(coinDetails: CoinDetails): CoinDetails {
 }
 
 function parseDefiMarket(
-	rawDefiMarket: DefiMarketResponse['data']
+	rawDefiMarket: DefiMarketResponse['data'],
 ): DefiMarket {
 	// parse
 	const defiMarket: DefiMarket = {
@@ -332,7 +332,7 @@ function parseDefiMarket(
 	return defiMarket
 }
 function parseGlobalMarket(
-	rawGlobalMarket: GlobalMarketResponse['data']
+	rawGlobalMarket: GlobalMarketResponse['data'],
 ): GlobalMarket {
 	// parse
 	const globalMarket: GlobalMarket = {
@@ -381,7 +381,7 @@ function parseCategories(rawCategories: CategoriesResponse): Array<Category> {
 }
 
 function parseRates(
-	rawRates: ExchangeRatesResponse['rates']
+	rawRates: ExchangeRatesResponse['rates'],
 ): Array<ExchangeRate> {
 	// parse
 	const rates: Array<ExchangeRate> = []
@@ -418,7 +418,7 @@ function parseRates(
 
 export async function getDefiMarket(
 	[]: [],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	// fetch
 	const url =
@@ -429,7 +429,7 @@ export async function getDefiMarket(
 			url: url,
 			cacheTtlSecs: day,
 		},
-		context
+		context,
 	)
 
 	// verify
@@ -447,7 +447,7 @@ export async function getDefiMarket(
 
 export async function getGlobalMarket(
 	[]: [],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	// fetch
 	const url = 'https://api.coingecko.com/api/v3/global'
@@ -457,7 +457,7 @@ export async function getGlobalMarket(
 			url: url,
 			cacheTtlSecs: day,
 		},
-		context
+		context,
 	)
 
 	// verify
@@ -475,7 +475,7 @@ export async function getGlobalMarket(
 
 export async function getCategories(
 	[]: [],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	// fetch
 	const url = 'https://api.coingecko.com/api/v3/coins/categories'
@@ -485,7 +485,7 @@ export async function getCategories(
 			url: url,
 			cacheTtlSecs: day,
 		},
-		context
+		context,
 	)
 
 	// verify
@@ -503,7 +503,7 @@ export async function getCategories(
 
 export async function getExchangeRates(
 	[]: [],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ): Promise<Array<ExchangeRate>> {
 	// fetch
 	const url = 'https://api.coingecko.com/api/v3/exchange_rates'
@@ -513,7 +513,7 @@ export async function getExchangeRates(
 			url: url,
 			cacheTtlSecs: day,
 		},
-		context
+		context,
 	)
 
 	// verify
@@ -531,7 +531,7 @@ export async function getExchangeRates(
 
 export async function getCurrencies(
 	[]: [],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ): Promise<Currencies> {
 	// fetch
 	const url = 'https://api.coingecko.com/api/v3/simple/supported_vs_currencies'
@@ -541,7 +541,7 @@ export async function getCurrencies(
 			url: url,
 			cacheTtlSecs: day,
 		},
-		context
+		context,
 	)
 
 	// verify
@@ -559,7 +559,7 @@ export async function getCurrencies(
 
 export async function getCoinMarket(
 	[input, inputWhen]: [id: string, when?: Date],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ): Promise<CoinMarket> {
 	// prepare
 	const request = parseInput(input)
@@ -581,7 +581,7 @@ export async function getCoinMarket(
 	}
 	const url = coda.withQueryParams(
 		`https://api.coingecko.com/api/v3/coins/${request.id}/history`,
-		query
+		query,
 	)
 	const response = await fetch<CoinHistoryResponse>(
 		{
@@ -589,7 +589,7 @@ export async function getCoinMarket(
 			url: url,
 			cacheTtlSecs: wasToday ? day : longTime,
 		},
-		context
+		context,
 	)
 
 	// verify
@@ -612,7 +612,7 @@ export async function getCoinMarket(
 
 export async function getCoinDetails(
 	[input]: [input: string],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ): Promise<CoinDetails> {
 	// prepare
 	const request = parseInput(input)
@@ -634,7 +634,7 @@ export async function getCoinDetails(
 	}
 	const url = coda.withQueryParams(
 		`https://api.coingecko.com/api/v3/coins/${request.id}`,
-		query
+		query,
 	)
 	const response = await fetch<CoinResponse>(
 		{
@@ -642,7 +642,7 @@ export async function getCoinDetails(
 			url: url,
 			cacheTtlSecs: day,
 		},
-		context
+		context,
 	)
 
 	// verify
@@ -683,7 +683,7 @@ export async function getCoinDetails(
 
 export async function getCoins(
 	[]: [],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	// fetch
 	const url = `https://api.coingecko.com/api/v3/coins/list`
@@ -693,7 +693,7 @@ export async function getCoins(
 			url: url,
 			cacheTtlSecs: day,
 		},
-		context
+		context,
 	)
 
 	// verify
@@ -711,7 +711,7 @@ export async function getCoins(
 
 export async function trendingCoins(
 	[]: [],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	// fetch
 	const url = `https://api.coingecko.com/api/v3/search/trending`
@@ -721,7 +721,7 @@ export async function trendingCoins(
 			url: url,
 			cacheTtlSecs: day,
 		},
-		context
+		context,
 	)
 
 	// verify
@@ -739,7 +739,7 @@ export async function trendingCoins(
 
 export async function searchCoins(
 	[search]: [search: string],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	// fetch
 	const url = coda.withQueryParams(`https://api.coingecko.com/api/v3/search`, {
@@ -751,7 +751,7 @@ export async function searchCoins(
 			url: url,
 			cacheTtlSecs: day,
 		},
-		context
+		context,
 	)
 
 	// verify

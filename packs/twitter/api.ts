@@ -20,7 +20,7 @@ import {
 export async function ActiveUser(
 	[]: [],
 	// [user_fields = []]: [Array<TwitterParams<findMyUser>['user.fields']>?],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	// fetch
 	const query: TwitterParams<findMyUser> = {
@@ -47,7 +47,7 @@ export async function ActiveUser(
 // tweet.read tweet.write users.read
 export async function SendTweet(
 	[message]: [string],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	// check
 	if (!message) {
@@ -81,12 +81,12 @@ export async function SendTweet(
 // tweet.read users.read
 export async function TweetsByUserId(
 	[id]: [string],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	// check
 	if (!id) {
 		throw new coda.UserVisibleError(
-			`A user identifier is required to fetch tweets for a user.`
+			`A user identifier is required to fetch tweets for a user.`,
 		)
 	}
 
@@ -104,7 +104,7 @@ export async function TweetsByUserId(
 	}
 	const url = coda.withQueryParams(
 		`https://api.twitter.com/2/users/${id}/tweets`,
-		query
+		query,
 	)
 	const response = await context.fetcher.fetch<TwitterResponse<usersIdTweets>>({
 		url: url,
@@ -126,7 +126,7 @@ export async function TweetsByUserId(
 
 export async function TweetsByActiveUser(
 	[]: [],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	const user = await ActiveUser([], context)
 	const tweets = await TweetsByUserId([user.id], context)
@@ -137,12 +137,12 @@ export async function TweetsByActiveUser(
 // tweet.read tweet.write users.read
 export async function DeleteTweetById(
 	[id]: [string],
-	context: coda.SyncExecutionContext | coda.ExecutionContext
+	context: coda.SyncExecutionContext | coda.ExecutionContext,
 ) {
 	// check
 	if (!id) {
 		throw new coda.UserVisibleError(
-			`A tweet identifier is required to delete a tweet.`
+			`A tweet identifier is required to delete a tweet.`,
 		)
 	}
 

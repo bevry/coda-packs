@@ -1,0 +1,48 @@
+name: bevry
+'on':
+  - push
+  - pull_request
+jobs:
+  test:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        node:
+          - '18'
+          - '20'
+          - '21'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install desired Node.js version
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      - run: npm run our:setup
+      - run: npm run our:compile
+      - run: npm run our:verify
+      - name: Install targeted Node.js
+        if: ${{ matrix.node != 20 }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm test
+  publish:
+    if: ${{ github.event_name == 'push' }}
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install desired Node.js version
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      - run: npm run our:setup
+      - run: npm run our:compile
+      - run: npm run our:meta
+      - name: publish to surge
+        uses: bevry-actions/surge@v1.0.3
+        with:
+          surgeLogin: ${{ secrets.SURGE_LOGIN }}
+          surgeToken: ${{ secrets.SURGE_TOKEN }}
