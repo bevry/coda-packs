@@ -131,7 +131,7 @@
     "eslint-plugin-prettier": "^5.0.1",
     "kava": "^5.15.0",
     "prettier": "^3.0.3",
-    "projectz": "^2.23.0",
+    "projectz": "^4.2.0",
     "surge": "^0.23.1",
     "typedoc": "^0.25.3",
     "typescript": "5.2.2"
